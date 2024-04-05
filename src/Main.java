@@ -1,15 +1,22 @@
-import Manager.TaskManager;
+import Manager.InMemoryTaskManager;
+import Manager.Managers;
 import Model.Epic;
 import Model.Status;
 import Model.SubTask;
 import Model.Task;
 
 public class Main {
-    static TaskManager tm;
+    static InMemoryTaskManager tm;
 
     public static void main(String[] args) {
+
+        tm = Managers.getDefault();
+
+
+
+
         System.out.println("Поехали!");
-        tm = new TaskManager();
+
         System.out.println("Создадим 2 задачи");
         Task task1 = new Task("Deal1", "Lets do something", Status.valueOf("NEW"));
         System.out.println("Задача 1 " + tm.addTask(task1) + " создана");
@@ -32,6 +39,17 @@ public class Main {
         SubTask subTask3 = new SubTask("Subtask 3", "Some text", Status.valueOf("NEW"), epic2.getId());
         tm.addSubTask(subTask3);
         System.out.println("Полный список подзадач теперь выглядит так :" + tm.getAllSubTasks());
+        tm.getTaskById(1);
+        tm.getTaskById(2);
+        tm.getEpicById(3);
+        tm.getEpicById(4);
+        tm.getTaskById(1);
+        tm.getTaskById(2);
+        tm.getEpicById(3);
+        tm.getEpicById(4);
+        tm.getTaskById(1);
+
+
         System.out.println("Список позадач, привязанных к эпику1: " + tm.getSubTasksLinkedToEpic(epic1));
         System.out.println("Список позадач, привязанных к эпику2: " + tm.getSubTasksLinkedToEpic(epic2));
         System.out.println("Удалим позадачу 1");
@@ -52,6 +70,7 @@ public class Main {
         tm.addSubTask(subTask4);
         System.out.println("Подзадачи эпика2: " + tm.getSubTasksLinkedToEpic(epic2));
         System.out.println("Теперь статус эпика: " + epic2.getStatus());
+        System.out.println(tm.getAllTasks());
 
 
     }
