@@ -1,6 +1,4 @@
-package Model;
-
-import Model.Task;
+package model;
 
 public class SubTask extends Task {
  private int epicLink;

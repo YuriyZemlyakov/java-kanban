@@ -1,6 +1,4 @@
-package Model;
-
-import Model.Task;
+package model;
 
 import java.util.ArrayList;
 public class Epic extends Task {

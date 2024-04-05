@@ -1,12 +1,12 @@
-import Manager.InMemoryTaskManager;
-import Manager.Managers;
-import Model.Epic;
-import Model.Status;
-import Model.SubTask;
-import Model.Task;
+import manager.Managers;
+import manager.TaskManager;
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
 
 public class Main {
-    static InMemoryTaskManager tm;
+    static TaskManager tm;
 
     public static void main(String[] args) {
 

@@ -1,4 +1,4 @@
-package Model;
+package model;
 
 public class Task {
     protected String name;
@@ -12,6 +12,7 @@ public class Task {
         this.status = status;
     }
 // второй конструктор с id для обновления задач
+// использую для тестов
     public Task(String name, String description, int id, Status status) {
         this.name = name;
         this.description = description;
@@ -73,6 +74,5 @@ public class Task {
     public int getId() {
         return id;
     }
-
 
 }

@@ -1,11 +1,11 @@
-package Manager;
+package manager;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ManagersTest {
-    static InMemoryTaskManager tm;
+    static TaskManager tm;
     static HistoryManager history;
 
     @Test

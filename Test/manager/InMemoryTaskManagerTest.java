@@ -1,18 +1,17 @@
-package Manager;
+package manager;
 
-import Model.Epic;
-import Model.Status;
-import Model.SubTask;
-import Model.Task;
+import model.Epic;
+import model.Status;
+import model.SubTask;
+import model.Task;
 import org.junit.jupiter.api.*;
 import java.util.ArrayList;
-import java.util.List;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class InMemoryTaskManagerTest {
-    static InMemoryTaskManager tm;
+    static TaskManager tm;
     static Task task1;
     static Task task2;
     static SubTask subTask1;
@@ -64,11 +63,6 @@ class InMemoryTaskManagerTest {
         tm.addEpic(epic2);
         Assertions.assertEquals(expectedId, epic2.getId(), "Неправильно рассчитывается id");
     }
-//
-//    @Test
-//    void getAllTasks() {
-//    }
-//
     @Test
     void getAllSubTasks() {
         tm.addEpic(epic1);
@@ -79,11 +73,6 @@ class InMemoryTaskManagerTest {
         expectedArray.add(subTask2);
         Assertions.assertEquals(expectedArray, tm.getAllSubTasks());
     }
-//
-//    @Test
-//    void getAllEpics() {
-//    }
-//
     @Test
     void getTaskById() {
         tm.addTask(task1);
@@ -91,22 +80,6 @@ class InMemoryTaskManagerTest {
         Assertions.assertEquals(task2, tm.getTaskById(2));
     }
 
-//    @Test
-//    void getSubTaskById() {
-//    }
-//
-//    @Test
-//    void getEpicById() {
-//    }
-//
-//    @Test
-//    void deleteAllTasks() {
-//    }
-//
-//    @Test
-//    void deleteAllSubTasks() {
-//    }
-//
 
     //Проверим, что удаляются как эпики, так и привязанные подзадачи
     @Test
@@ -120,11 +93,6 @@ class InMemoryTaskManagerTest {
         Assertions.assertTrue(tm.getAllSubTasks().isEmpty());
 
     }
-//
-//    @Test
-//    void deleteTaskById() {
-//    }
-//
     @Test
     void deleteSubTaskById() {
         tm.addEpic(epic1);
@@ -135,23 +103,7 @@ class InMemoryTaskManagerTest {
         assertEquals(1,tm.getSubTasksLinkedToEpic(epic1).size()); // проверяем, что удалилась связь с эпиком
 
     }
-//
-//    @Test
-//    void deleteEpicById() {
-//    }
-//
-//    @Test
-//    void updateTask() {
-//    }
-//
-//    @Test
-//    void updateSubTask() {
-//    }
-//
-//    @Test
-//    void updateEpic() {
-//    }
-//
+
     @Test
     void getSubTasksLinkedToEpic() {
         tm.addEpic(epic1);
@@ -183,7 +135,6 @@ class InMemoryTaskManagerTest {
         assertEquals(task1.getDescription(), addedTask.getDescription());
         assertEquals(task1.getStatus(), addedTask.getStatus());
     }
-
 
     }
 
