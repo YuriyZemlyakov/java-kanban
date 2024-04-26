@@ -246,7 +246,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (!linkedSubTasks.isEmpty()) {
             boolean isStatusInProgress = false;
             boolean statusListIncludeNew = false;
-            boolean statusListIncludeDone= false;
+            boolean statusListIncludeDone = false;
             for (Integer linkedSubTask : linkedSubTasks) {
                 if (subTasks.get(linkedSubTask).getStatus() == Status.IN_PROGRESS) {
                     isStatusInProgress = true;
