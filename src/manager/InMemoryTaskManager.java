@@ -244,24 +244,24 @@ public class InMemoryTaskManager implements TaskManager {
         ArrayList<Integer> linkedSubTasks = epics.get(epicId).getSubTasksLinks();
         Status calculatedStatus = Status.NEW;
         if (!linkedSubTasks.isEmpty()) {
-            boolean isStatusIN_PROGRESS = false;
-            boolean statusListIncludeNEW = false;
-            boolean statusListIncludeDONE = false;
+            boolean isStatusInProgress = false;
+            boolean statusListIncludeNew = false;
+            boolean statusListIncludeDone= false;
             for (Integer linkedSubTask : linkedSubTasks) {
                 if (subTasks.get(linkedSubTask).getStatus() == Status.IN_PROGRESS) {
-                    isStatusIN_PROGRESS = true;
+                    isStatusInProgress = true;
                     break;
                 } else if (subTasks.get(linkedSubTask).getStatus() == Status.NEW) {
-                    statusListIncludeNEW = true;
+                    statusListIncludeNew = true;
                 } else {
-                    statusListIncludeDONE = true;
+                    statusListIncludeDone = true;
                 }
             }
-            if (isStatusIN_PROGRESS) {
+            if (isStatusInProgress) {
                 calculatedStatus = Status.IN_PROGRESS;
-            } else if (statusListIncludeNEW && !statusListIncludeDONE) {
+            } else if (statusListIncludeNew && !statusListIncludeDone) {
                 calculatedStatus = Status.NEW;
-            } else if (statusListIncludeDONE && !statusListIncludeNEW) {
+            } else if (statusListIncludeDone && !statusListIncludeNew) {
                 calculatedStatus = Status.DONE;
             } else {
                 calculatedStatus = Status.IN_PROGRESS;
