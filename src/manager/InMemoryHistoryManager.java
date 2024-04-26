@@ -1,17 +1,18 @@
 package manager;
+
 import model.Task;
 
 import java.util.*;
 
-public class InMemoryHistoryManager implements HistoryManager{
+public class InMemoryHistoryManager implements HistoryManager {
     private List<Task> history;
     private Map<Integer, Node> historyMap;
     private Node head;
     private Node tail;
-    private  int size = 0;
+    private int size = 0;
 
 
-    public InMemoryHistoryManager()  {
+    public InMemoryHistoryManager() {
         this.historyMap = new LinkedHashMap<>();
     }
 
@@ -29,7 +30,7 @@ public class InMemoryHistoryManager implements HistoryManager{
             removeNode(historyMap.get(taskId));
             historyMap.remove(task.getId());
         }
-        historyMap.put(task.getId(),newNode);
+        historyMap.put(task.getId(), newNode);
     }
 
     private void removeNode(Node node) {

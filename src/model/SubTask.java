@@ -1,7 +1,7 @@
 package model;
 
 public class SubTask extends Task {
- private int epicLink;
+    private int epicLink;
 
     public SubTask(String name, String description, Status status, int epicLink) {
         super(name, description, status);
@@ -12,6 +12,7 @@ public class SubTask extends Task {
         super(name, description, id, status);
         this.epicLink = epicLink;
     }
+
     public int getEpicLink() {
         return epicLink;
     }

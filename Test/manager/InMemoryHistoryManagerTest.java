@@ -19,15 +19,17 @@ class InMemoryHistoryManagerTest {
     static Epic epic1;
     static Epic epic2;
     static ArrayList<Task> expectedHistoryList;
+
     @BeforeAll
     static void createTM() {
         tm = Managers.getDefault();
     }
+
     @BeforeEach
     void prepareDataForTest() {
         epic1 = new Epic("Epic1", "1111", Status.NEW);
         task1 = new Task("Task1", "NNN", Status.NEW);
-        subTask1 = new SubTask("SubTask1", "1111",Status.NEW, 1);
+        subTask1 = new SubTask("SubTask1", "1111", Status.NEW, 1);
         expectedHistoryList = new ArrayList<>();
         tm.addEpic(epic1);
         expectedHistoryList.add(tm.getEpicById(epic1.getId()));
@@ -37,6 +39,7 @@ class InMemoryHistoryManagerTest {
         expectedHistoryList.add(tm.getSubTaskById(subTask1.getId()));
 
     }
+
     @AfterEach
     void clearData() {
         tm.deleteAllTasks();
@@ -57,9 +60,10 @@ class InMemoryHistoryManagerTest {
         //Проверим,что повторно просмотренная задача встала в конец,
         // а размер мапы не изменился (предыдущий просмотр удален)
         tm.getTaskById(task1.getId());
-        assertEquals(3,tm.getHistory().size());
+        assertEquals(3, tm.getHistory().size());
         assertEquals(task1, tm.getHistory().getLast());
     }
+
     @Test
     void checkRemoveTaskFromHistory() {
         //Проверим удаление из истории задачи
@@ -72,4 +76,4 @@ class InMemoryHistoryManagerTest {
         assertEquals(expectedHistoryList.size(), tm.getHistory().size());
     }
 
-    }
+}
