@@ -100,6 +100,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteAllTasks() {
         tasks.clear();
+        for (Task task : history.getHistory()) {
+            if (!(task instanceof Epic || task instanceof SubTask)) {
+                history.remove(task.getId());
+            }
+
+        }
     }
     @Override
     public void deleteAllSubTasks() {
@@ -110,6 +116,12 @@ public class InMemoryTaskManager implements TaskManager {
         }
         //Удаляем сами подзадачи
         subTasks.clear();
+        for (Task task : history.getHistory()) {
+            if (task instanceof SubTask) {
+                history.remove(task.getId());
+            }
+
+        }
     }
     @Override
     public void deleteAllEpics() {
@@ -117,12 +129,19 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.clear();
         //теперь удаляем сами эпики
         epics.clear();
+        for (Task task : history.getHistory()) {
+            if (task instanceof Epic || task instanceof SubTask) {
+                history.remove(task.getId());
+            }
+
+        }
     }
 
     //Методы удаления задач по идентификтору
     @Override
     public void deleteTaskById(int id) {
         tasks.remove(id);
+        history.remove(id);
     }
     @Override
     public void deleteSubTaskById(int id) {
@@ -134,6 +153,7 @@ public class InMemoryTaskManager implements TaskManager {
             epics.get(epicLink).setStatus(calculateEpicStatus(subTasks.get(id).getEpicLink()));
         //удаляем саму подзадачу
             subTasks.remove(id);
+            history.remove(id);
        } else {
             System.out.println("Такого id не существует");
             return;
@@ -145,9 +165,11 @@ public class InMemoryTaskManager implements TaskManager {
             //удаляем связанные позадачи
             for (Integer subTasksLink : epics.get(id).getSubTasksLinks()) {
                 subTasks.remove(subTasksLink);
+                history.remove(subTasksLink);
             }
             //удаляем сам эпик
             epics.remove(id);
+            history.remove(id);
         } else {
             System.out.println("Такого id не существует");
             return;
