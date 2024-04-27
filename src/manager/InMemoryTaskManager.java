@@ -143,9 +143,8 @@ public class InMemoryTaskManager implements TaskManager {
             if (task instanceof Epic || task instanceof SubTask) {
                 history.remove(task.getId());
             }
-            epics.clear();
-
         }
+        epics.clear();
     }
 
     //Методы удаления задач по идентификтору
