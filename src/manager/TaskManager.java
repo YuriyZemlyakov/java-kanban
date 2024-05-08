@@ -51,6 +51,7 @@ public interface TaskManager {
 
     // Метод получения списка подзадач эпика
     ArrayList<SubTask> getSubTasksLinkedToEpic(Epic epic);
+
     ArrayList<Task> getHistory();
 
     void resetIdCounter(); //добавил для юнит-тестов

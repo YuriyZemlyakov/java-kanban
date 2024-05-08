@@ -14,6 +14,11 @@ class ManagersTest {
         assertTrue(tm instanceof InMemoryTaskManager);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
+
     @Test
     void getDefaultHistory() {
         history = Managers.getDefaultHistory();

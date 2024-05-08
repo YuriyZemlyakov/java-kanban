@@ -11,7 +11,8 @@ public class Task {
         this.description = description;
         this.status = status;
     }
-// второй конструктор с id для обновления задач
+
+    // второй конструктор с id для обновления задач
 // использую для тестов
     public Task(String name, String description, int id, Status status) {
         this.name = name;

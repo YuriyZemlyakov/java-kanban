@@ -1,11 +1,12 @@
 package model;
 
 import java.util.ArrayList;
+
 public class Epic extends Task {
     private ArrayList<Integer> subTasksLinks = new ArrayList<>();
 
     public Epic(String name, String description, Status status) {
-        super(name, description, Status.NEW );
+        super(name, description, Status.NEW);
     }
 
     public Epic(String name, String description, int id, Status status) {
@@ -15,10 +16,12 @@ public class Epic extends Task {
     public void addLink(Integer link) {
         subTasksLinks.add(link);
     }
+
     public void deleteLinkById(Integer subTaskId) {
         subTasksLinks.remove((Integer) subTaskId);
     }
-    public void  deleteAllLinks() {
+
+    public void deleteAllLinks() {
         subTasksLinks.clear();
     }
 
