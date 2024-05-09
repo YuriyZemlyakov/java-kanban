@@ -17,4 +17,8 @@ public class SubTask extends Task {
         return epicLink;
     }
 
+    @Override
+    public String toString() {
+        return id + "," + "subTask" + "," +  name + "," + status + "," + description + "," + epicLink;
+    }
 }

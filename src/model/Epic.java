@@ -29,5 +29,10 @@ public class Epic extends Task {
         ArrayList<Integer> links = new ArrayList<>(subTasksLinks);
         return links;
     }
+
+    @Override
+    public String toString() {
+        return id + "," + "epic" + "," +  name + "," + status + "," + description + ",";
+    }
 }
 
