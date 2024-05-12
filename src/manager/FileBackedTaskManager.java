@@ -34,7 +34,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             allTasksStringList.add(subTask.toString());
         }
         try {
-            Files.write(file,allTasksStringList);
+            Files.write(file, allTasksStringList);
         } catch (IOException e) {
             throw new ManagerSaveException("Не удалось записать данные в файл");
         }
@@ -88,9 +88,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return subTask;
             default:
                 throw new IOException("Не удалось прочитать строку, неизвестный тип задачи");
-
         }
-
     }
 
     @Override
