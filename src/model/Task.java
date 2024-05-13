@@ -36,8 +36,7 @@ public class Task {
         return id;
     }
 
-    @Override
-    public String toString() {
+    public String toFileString() {
         return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
     }
 

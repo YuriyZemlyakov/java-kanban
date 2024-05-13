@@ -18,7 +18,7 @@ public class SubTask extends Task {
     }
 
     @Override
-    public String toString() {
+    public String toFileString() {
         return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicLink;
     }
 }

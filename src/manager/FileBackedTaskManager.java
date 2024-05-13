@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
-    Path file;
+    private final Path file;
 
     public FileBackedTaskManager(Path file) {
         this.file = file;
@@ -24,13 +24,13 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String headers = "id,type,name,status,description,epic";
         allTasksStringList.add(headers);
         for (Task task : getAllTasks()) {
-            allTasksStringList.add(task.toString());
+            allTasksStringList.add(task.toFileString());
         }
         for (Epic epic : getAllEpics()) {
-            allTasksStringList.add(epic.toString());
+            allTasksStringList.add(epic.toFileString());
         }
         for (SubTask subTask : getAllSubTasks()) {
-            allTasksStringList.add(subTask.toString());
+            allTasksStringList.add(subTask.toFileString());
         }
         try {
             Files.write(file, allTasksStringList);
@@ -43,19 +43,21 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         FileBackedTaskManager fileBackedTaskManager = new FileBackedTaskManager(file);
         try {
             List<String> tasksFromFile = Files.readAllLines(file);
+            int newIdCounter = 0;
             for (int i = 1; i < tasksFromFile.size(); i++) {
-                try {
-                    fileBackedTaskManager.fromString(tasksFromFile.get(i));
-                } catch (IOException e) {
-                    System.out.println(e.getMessage());
+                fileBackedTaskManager.fromString(tasksFromFile.get(i));
+                int taskId = Integer.parseInt(tasksFromFile.get(i).split(",")[0]);
+                if (taskId > newIdCounter) {
+                    newIdCounter = taskId;
                 }
             }
+
             // Проверяем, есть ли в файле данные помимо заголовков. Если есть - корректируем счетчик id
             if (tasksFromFile.size() > 1) {
-                fileBackedTaskManager.idCounter = (tasksFromFile.size() - 1);
+                fileBackedTaskManager.idCounter = newIdCounter;
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return fileBackedTaskManager;
     }
@@ -71,19 +73,19 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
 
         switch (taskType) {
-            case TaskType.TASK:
+            case TASK:
                 Task task = new Task(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]));
-                super.tasks.put(task.getId(), task);
+                tasks.put(task.getId(), task);
                 return task;
-            case TaskType.EPIC:
+            case EPIC:
                 Epic epic = new Epic(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]));
-                super.epics.put(epic.getId(), epic);
+                epics.put(epic.getId(), epic);
                 return epic;
-            case TaskType.SUBTASK:
+            case SUBTASK:
                 SubTask subTask = new SubTask(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Integer.parseInt(taskDetails[5]));
-                super.subTasks.put(subTask.getId(), subTask);
+                subTasks.put(subTask.getId(), subTask);
                 //Добавляем в эпик связь с подзадачей
-                super.getEpicById(Integer.parseInt(taskDetails[5])).addLink(Integer.parseInt(taskDetails[0]));
+                getEpicById(Integer.parseInt(taskDetails[5])).addLink(Integer.parseInt(taskDetails[0]));
                 return subTask;
             default:
                 throw new IOException("Не удалось прочитать строку, неизвестный тип задачи");
