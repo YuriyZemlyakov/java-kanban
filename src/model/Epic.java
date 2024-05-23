@@ -29,5 +29,10 @@ public class Epic extends Task {
         ArrayList<Integer> links = new ArrayList<>(subTasksLinks);
         return links;
     }
+
+    @Override
+    public String toFileString() {
+        return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + ",";
+    }
 }
 

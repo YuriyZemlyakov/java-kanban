@@ -36,12 +36,8 @@ public class Task {
         return id;
     }
 
-    @Override
-    public String toString() {
-        return "Model.Task{" +
-                "name='" + name + '\'' +
-                ", id=" + id +
-                '}';
+    public String toFileString() {
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
     }
 
     public String getName() {
