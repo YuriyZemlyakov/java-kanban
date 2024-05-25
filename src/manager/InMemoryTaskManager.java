@@ -5,8 +5,11 @@ import model.Status;
 import model.SubTask;
 import model.Task;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Optional;
 
 
 public class InMemoryTaskManager implements TaskManager {
@@ -43,7 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
             subTask.setId(idCounter);
             subTasks.put(subTask.getId(), subTask);
             epics.get(subTask.getEpicLink()).addLink(subTask.getId());
-            epics.get(subTask.getEpicLink()).setStatus(calculateEpicStatus(subTask.getEpicLink()));
+            recalculateEpicFields(subTask);
             return subTask;
         } else {
             System.out.println("Эпика с таким id не найдено");
@@ -124,6 +127,8 @@ public class InMemoryTaskManager implements TaskManager {
         for (Epic epic : epics.values()) {
             epic.deleteAllLinks();
             epic.setStatus(Status.NEW);
+            epic.setEpicStartTime(null);
+            epic.setEpicDuration(Duration.ofMinutes(0));
         }
         //Удаляем сами подзадачи
 
@@ -159,11 +164,12 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteSubTaskById(int id) {
         if (subTasks.containsKey(id)) {
-            int epicLink = subTasks.get(id).getEpicLink();
+            SubTask subTask = subTasks.get(id);
+            Epic epic = epics.get(subTask.getEpicLink());
             //удаляем связь с эпиком
-            epics.get(epicLink).deleteLinkById(id);
+            epic.deleteLinkById(id);
             // пересчитываем статус эпика
-            epics.get(epicLink).setStatus(calculateEpicStatus(subTasks.get(id).getEpicLink()));
+            recalculateEpicFields(subTask);
             //удаляем саму подзадачу
             subTasks.remove(id);
             history.remove(id);
@@ -212,7 +218,7 @@ public class InMemoryTaskManager implements TaskManager {
                 return;
             }
             //Обновляем статус эпика
-            epics.get(subTask.getEpicLink()).setStatus(calculateEpicStatus(subTask.getEpicLink()));
+            recalculateEpicFields(subTask);
         } else {
             System.out.println("Задачи для обновления в хранилище не найдено");
             return;
@@ -270,6 +276,26 @@ public class InMemoryTaskManager implements TaskManager {
             }
         }
         return calculatedStatus;
+    }
+
+    private Duration calculateEpicDuration(Epic epic) {
+        Duration epicDuration = Duration.ofMinutes(0);
+        for (SubTask subTask : getSubTasksLinkedToEpic(epic)) {
+            epicDuration = epicDuration.plus(subTask.getDuration());
+        }
+        return epicDuration;
+    }
+    private Optional<LocalDateTime> calculateEpicStartTime(Epic epic) {
+        return getSubTasksLinkedToEpic(epic).stream()
+                .map(subTask -> subTask.getStartTime())
+                .min(LocalDateTime::compareTo);
+    }
+    private void recalculateEpicFields(SubTask subTask) {
+        Epic epic = epics. get(subTask.getEpicLink());
+        epic.setStatus(calculateEpicStatus(epic.getId()));
+        epic.setEpicDuration(calculateEpicDuration(epic));
+        calculateEpicStartTime(epic).ifPresent(epic::setEpicStartTime);
+
     }
 
     @Override

@@ -1,12 +1,16 @@
 package model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
     private ArrayList<Integer> subTasksLinks = new ArrayList<>();
 
-    public Epic(String name, String description, Status status) {
-        super(name, description, Status.NEW);
+    public Epic(String name, String description, Status status, Duration duration, LocalDateTime startTime) {
+        super(name, description, status, duration, startTime);
+        this.duration = Duration.ofMinutes(0);
+        this.startTime = null;
     }
 
     public Epic(String name, String description, int id, Status status) {
@@ -16,6 +20,7 @@ public class Epic extends Task {
     public void addLink(Integer link) {
         subTasksLinks.add(link);
     }
+
 
     public void deleteLinkById(Integer subTaskId) {
         subTasksLinks.remove((Integer) subTaskId);
@@ -33,6 +38,14 @@ public class Epic extends Task {
     @Override
     public String toFileString() {
         return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + ",";
+    }
+
+    public void setEpicDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public void setEpicStartTime(LocalDateTime epicStartTime) {
+        this.startTime = epicStartTime;
     }
 }
 

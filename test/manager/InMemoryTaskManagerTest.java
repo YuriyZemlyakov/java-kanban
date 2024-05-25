@@ -6,6 +6,9 @@ import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.ArrayList;
 
 
@@ -27,12 +30,12 @@ class InMemoryTaskManagerTest {
 
     @BeforeEach
     void createTasks() {
-        epic1 = new Epic("Epic1", "1111", Status.NEW);
-        epic2 = new Epic("Epic2", "2222eeee", Status.NEW);
-        task1 = new Task("Task1", "NNN", Status.NEW);
-        task2 = new Task("Task2", "NNN", Status.NEW);
-        subTask1 = new SubTask("SubTask1", "1111", Status.NEW, 1);
-        subTask2 = new SubTask("SubTask2", "2222", Status.NEW, 1);
+        epic1 = new Epic("Epic1", "1111", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 24, 12, 30, 30));
+        epic2 = new Epic("Epic2", "2222eeee", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 23, 6, 34, 23));
+        task1 = new Task("Task1", "NNN", Status.NEW, null, null);
+        task2 = new Task("Task2", "NNN", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 24, 23, 23, 15));
+        subTask1 = new SubTask("SubTask1", "1111", Status.NEW, Duration.ofMinutes(200), LocalDateTime.of(2024, Month.AUGUST, 23, 9, 23, 43), 1);
+        subTask2 = new SubTask("SubTask2", "2222", Status.NEW, Duration.ofMinutes(25), LocalDateTime.of(2024, Month.JUNE, 15, 11, 34, 23), 1);
 
     }
 
