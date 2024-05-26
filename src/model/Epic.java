@@ -13,8 +13,10 @@ public class Epic extends Task {
         this.startTime = null;
     }
 
-    public Epic(String name, String description, int id, Status status) {
-        super(name, description, id, status);
+    public Epic(String name, String description, int id, Status status, Duration duration, LocalDateTime startTime) {
+        super(name, description, id, status, duration, startTime);
+        this.duration = Duration.ofMinutes(0);
+        this.startTime = null;
     }
 
     public void addLink(Integer link) {

@@ -9,6 +9,8 @@ import model.Status;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() throws ManagerSaveException {
         List<String> allTasksStringList = new ArrayList<>();
-        String headers = "id,type,name,status,description,epic";
+        String headers = "id,type,name,status,description,epic,duration,startTime";
         allTasksStringList.add(headers);
         for (Task task : getAllTasks()) {
             allTasksStringList.add(task.toFileString());
@@ -74,15 +76,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         switch (taskType) {
             case TASK:
-                Task task = new Task(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]));
+                Task task = new Task(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Duration.ofMinutes(Integer.parseInt(taskDetails[5])), LocalDateTime.parse(taskDetails[6]));
                 tasks.put(task.getId(), task);
                 return task;
             case EPIC:
-                Epic epic = new Epic(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]));
+                Epic epic = new Epic(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Duration.ofMinutes(0), null);
                 epics.put(epic.getId(), epic);
                 return epic;
             case SUBTASK:
-                SubTask subTask = new SubTask(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Integer.parseInt(taskDetails[5]));
+                SubTask subTask = new SubTask(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Duration.ofMinutes(Integer.parseInt(taskDetails[6])), LocalDateTime.parse(taskDetails[7]), Integer.parseInt(taskDetails[5]));
                 subTasks.put(subTask.getId(), subTask);
                 //Добавляем в эпик связь с подзадачей
                 getEpicById(Integer.parseInt(taskDetails[5])).addLink(Integer.parseInt(taskDetails[0]));

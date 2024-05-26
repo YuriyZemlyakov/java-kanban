@@ -21,11 +21,13 @@ public class Task {
 
     // второй конструктор с id для обновления задач
 // использую для тестов
-    public Task(String name, String description, int id, Status status) {
+    public Task(String name, String description, int id, Status status, Duration duration, LocalDateTime startTime) {
         this.name = name;
         this.description = description;
         this.id = id;
         this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
     }
 
     @Override
@@ -44,7 +46,7 @@ public class Task {
     }
 
     public String toFileString() {
-        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",";
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + "," + duration.toMinutes() + "," + startTime + ",";
     }
 
     public String getName() {

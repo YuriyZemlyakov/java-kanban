@@ -11,8 +11,8 @@ public class SubTask extends Task {
         this.epicLink = epicLink;
     }
 
-    public SubTask(String name, String description, int id, Status status, int epicLink) {
-        super(name, description, id, status);
+    public SubTask(String name, String description, int id, Status status, Duration duration, LocalDateTime startTime, int epicLink) {
+        super(name, description, id, status, duration, startTime);
         this.epicLink = epicLink;
     }
 
@@ -22,6 +22,6 @@ public class SubTask extends Task {
 
     @Override
     public String toFileString() {
-        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicLink;
+        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicLink + "," + duration.toMinutes() + "," + startTime + ",";
     }
 }
