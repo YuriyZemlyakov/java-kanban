@@ -16,7 +16,7 @@ public class InMemoryTaskManager implements TaskManager {
 
 
     private final HistoryManager history;
-    protected TreeSet prioritizedTasks;
+    protected TreeSet<Task> prioritizedTasks;
 
 
     public InMemoryTaskManager() {
@@ -24,7 +24,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks = new HashMap<>();
         epics = new HashMap<>();
         history = Managers.getDefaultHistory();
-        prioritizedTasks = new TreeSet(new ComparatorByStartTime());
+        prioritizedTasks = new TreeSet<>(new ComparatorByStartTime());
 
     }
 
@@ -36,6 +36,10 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.put(task.getId(), task);
         if (task.getStartTime() != null) {
             prioritizedTasks.add(task);
+            if (isOverlapse(task)) {
+                System.out.println("Задача пересекается по времени выполнения с другой задачей, добавление невозможно");
+                return null;
+            }
         }
         return task;
     }
@@ -48,6 +52,10 @@ public class InMemoryTaskManager implements TaskManager {
             subTasks.put(subTask.getId(), subTask);
             if (subTask.getStartTime() != null) {
                 prioritizedTasks.add(subTask);
+                if (isOverlapse(subTask)) {
+                    System.out.println("Задача пересекается по времени выполнения с другой задачей, добавление невозможно");
+                    return null;
+                }
             }
             epics.get(subTask.getEpicLink()).addLink(subTask.getId());
             recalculateEpicFields(subTask);
@@ -323,6 +331,16 @@ public class InMemoryTaskManager implements TaskManager {
         epic.setEpicDuration(calculateEpicDuration(epic));
         calculateEpicStartTime(epic).ifPresent(epic::setEpicStartTime);
 
+    }
+
+    private boolean isOverlapse(Task task) {
+        boolean isOverlapsed = false;
+        for (Task prioritizedTask : prioritizedTasks) {
+            if (prioritizedTask.getStartTime().isAfter(task.getStartTime()) && prioritizedTask.getStartTime().isBefore(task.getEndTime())) {
+                isOverlapsed = true;
+            }
+        }
+        return isOverlapsed;
     }
 
     @Override
