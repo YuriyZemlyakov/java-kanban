@@ -272,11 +272,9 @@ public class InMemoryTaskManager implements TaskManager {
     // Метод получения списка подзадач эпика
     @Override
     public ArrayList<SubTask> getSubTasksLinkedToEpic(Epic epic) {
-        ArrayList<SubTask> subTasksLinkedToEpic = new ArrayList<>();
-        for (Integer subTasksLink : epic.getSubTasksLinks()) {
-            subTasksLinkedToEpic.add(subTasks.get(subTasksLink));
-        }
-        return subTasksLinkedToEpic;
+        return epic.getSubTasksLinks().stream()
+                .map(link -> subTasks.get(link))
+                .collect(Collectors.toCollection(() -> new ArrayList<>()));
     }
 
     //метод для расчета статуса эпика
