@@ -5,6 +5,8 @@ import model.SubTask;
 import model.Task;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeSet;
 
 public interface TaskManager {
     // Методы добавления новых задач
@@ -53,6 +55,7 @@ public interface TaskManager {
     ArrayList<SubTask> getSubTasksLinkedToEpic(Epic epic);
 
     ArrayList<Task> getHistory();
+    ArrayList<Task> getPrioritizedTasks();
 
     void resetIdCounter(); //добавил для юнит-тестов
 

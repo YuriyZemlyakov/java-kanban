@@ -20,6 +20,7 @@ class InMemoryTaskManagerTest {
     static Task task2;
     static SubTask subTask1;
     static SubTask subTask2;
+    static SubTask subTask3;
     static Epic epic1;
     static Epic epic2;
 
@@ -35,7 +36,9 @@ class InMemoryTaskManagerTest {
         task1 = new Task("Task1", "NNN", Status.NEW, null, null);
         task2 = new Task("Task2", "NNN", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 24, 23, 23, 15));
         subTask1 = new SubTask("SubTask1", "1111", Status.NEW, Duration.ofMinutes(200), LocalDateTime.of(2024, Month.AUGUST, 23, 9, 23, 43), 1);
-        subTask2 = new SubTask("SubTask2", "2222", Status.NEW, Duration.ofMinutes(25), LocalDateTime.of(2024, Month.JUNE, 15, 11, 34, 23), 1);
+        subTask2 = new SubTask("SubTask2", "2222", Status.DONE, Duration.ofMinutes(25), LocalDateTime.of(2024, Month.JUNE, 15, 11, 34, 23), 1);
+        subTask3 = new SubTask("SubTask3", "3333", Status.IN_PROGRESS, Duration.ofMinutes(5), LocalDateTime.of(2024, Month.JUNE, 15, 13, 34, 23), 1);
+
 
     }
 
@@ -145,6 +148,28 @@ class InMemoryTaskManagerTest {
         assertEquals(task1.getName(), addedTask.getName());
         assertEquals(task1.getDescription(), addedTask.getDescription());
         assertEquals(task1.getStatus(), addedTask.getStatus());
+    }
+
+    @Test
+    void isEpicStatusCalculatedCorrect() {
+        tm.addEpic(epic1);
+        tm.addSubTask(subTask1);
+        assertEquals(Status.NEW, epic1.getStatus());
+        tm.addSubTask(subTask2);
+        assertEquals(Status.IN_PROGRESS, epic1.getStatus());
+        SubTask subTask1Updated = new SubTask("st1U", "UUUUU", 2 ,Status.DONE, Duration.ofMinutes(10), LocalDateTime.of(2024,12,23,12,35,20),1);
+        tm.updateSubTask(subTask1Updated);
+        assertEquals(Status.DONE, epic1.getStatus());
+        tm.addSubTask(subTask3);
+        assertEquals(Status.IN_PROGRESS, epic1.getStatus());
+
+    }
+    @Test
+    void isOverlapse() {
+        task1 = new Task("Task1", "NNN", Status.NEW, Duration.ofMinutes(120), LocalDateTime.of(2024, Month.JUNE, 24, 23, 20, 15));
+        task2 = new Task("Task2", "NNN", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 24, 23, 23, 15));
+        assertEquals(task1, tm.addTask(task1));
+        assertEquals(null, tm.addTask(task2));
     }
 
 }

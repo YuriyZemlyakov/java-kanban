@@ -334,7 +334,11 @@ public class InMemoryTaskManager implements TaskManager {
     private boolean isOverlapse(Task task) {
         boolean isOverlapsed = false;
         for (Task prioritizedTask : prioritizedTasks) {
-            if (prioritizedTask.getStartTime().isAfter(task.getStartTime()) && prioritizedTask.getStartTime().isBefore(task.getEndTime())) {
+            if (prioritizedTask.getStartTime().isAfter(task.getStartTime()) &&
+                    prioritizedTask.getStartTime().isBefore(task.getEndTime()) ||
+                    prioritizedTask.getStartTime().isBefore(task.getStartTime()) &&
+                            prioritizedTask.getEndTime().isAfter(task.getStartTime())
+                    ) {
                 isOverlapsed = true;
             }
         }
@@ -346,5 +350,8 @@ public class InMemoryTaskManager implements TaskManager {
         return history.getHistory();
     }
 
-
+    @Override
+    public ArrayList<Task> getPrioritizedTasks() {
+        return new ArrayList<>(prioritizedTasks);
+    }
 }
