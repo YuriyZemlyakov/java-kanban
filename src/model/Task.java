@@ -53,7 +53,7 @@ public class Task {
             durationString = String.valueOf(duration.toMinutes());
         }
 
-           return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",," + durationString + "," + startTime + ",";
+        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",," + durationString + "," + startTime + ",";
     }
 
     public String getName() {
@@ -95,6 +95,7 @@ public class Task {
     public LocalDateTime getStartTime() {
         return startTime;
     }
+
     public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }

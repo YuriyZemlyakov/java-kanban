@@ -64,7 +64,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return fileBackedTaskManager;
     }
 
-    public Task fromString(String stringTask) throws IOException {
+    private Task fromString(String stringTask) throws IOException {
         String[] taskDetails = stringTask.split(",");
         TaskType taskType = null;
         //Убедимся, что в файле указан допустимый тип задачи

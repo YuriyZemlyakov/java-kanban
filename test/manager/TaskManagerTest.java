@@ -23,7 +23,7 @@ abstract class TaskManagerTest {
     static Epic epic1;
     static Epic epic2;
 
-    public abstract  TaskManager getTaskManager();
+    public abstract TaskManager getTaskManager();
 
     @BeforeEach
     void createTasks() {
@@ -132,7 +132,7 @@ abstract class TaskManagerTest {
         //проверяем, что при добавлении задачи переданный id игнорируется и автогенерируется новый
         tm = getTaskManager();
         tm.addTask(task1);
-        Task TaskWithDuplicatedId = new Task("EditedTask1", "Some text", 1, Status.NEW, Duration.ofMinutes(24), LocalDateTime.of(2024,1,23,4,5,6));
+        Task TaskWithDuplicatedId = new Task("EditedTask1", "Some text", 1, Status.NEW, Duration.ofMinutes(24), LocalDateTime.of(2024, 1, 23, 4, 5, 6));
         tm.addTask(TaskWithDuplicatedId);
         assertEquals((task1.getId() + 1), TaskWithDuplicatedId.getId());
     }
@@ -156,13 +156,14 @@ abstract class TaskManagerTest {
         assertEquals(Status.NEW, epic1.getStatus());
         tm.addSubTask(subTask2);
         assertEquals(Status.IN_PROGRESS, epic1.getStatus());
-        SubTask subTask1Updated = new SubTask("st1U", "UUUUU", 2 ,Status.DONE, Duration.ofMinutes(10), LocalDateTime.of(2024,12,23,12,35,20),1);
+        SubTask subTask1Updated = new SubTask("st1U", "UUUUU", 2, Status.DONE, Duration.ofMinutes(10), LocalDateTime.of(2024, 12, 23, 12, 35, 20), 1);
         tm.updateSubTask(subTask1Updated);
         assertEquals(Status.DONE, epic1.getStatus());
         tm.addSubTask(subTask3);
         assertEquals(Status.IN_PROGRESS, epic1.getStatus());
 
     }
+
     @Test
     void isOverlapse() {
         tm = getTaskManager();

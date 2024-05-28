@@ -1,4 +1,5 @@
 package manager;
+
 import model.Epic;
 import model.Status;
 import model.SubTask;
@@ -60,13 +61,13 @@ public class FileBackedTaskManagerTest extends TaskManagerTest {
 
         assertEquals(0, tm.getAllTasks().size());
         //Добавим в менеджжер новые задачи
-        Task task1 = new Task("task1", "aaaa", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024,Month.JUNE,26,0,0,0));
+        Task task1 = new Task("task1", "aaaa", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 26, 0, 0, 0));
         tm.addTask(task1);
         Epic epic1 = new Epic("epic1", "eeeee", Status.NEW, null, null);
         tm.addEpic(epic1);
-        SubTask subTask1 = new SubTask("subtask1", "sssss", Status.IN_PROGRESS, Duration.ofMinutes(10), LocalDateTime.of(2024, Month.MAY,30,0,0,0), 2);
+        SubTask subTask1 = new SubTask("subtask1", "sssss", Status.IN_PROGRESS, Duration.ofMinutes(10), LocalDateTime.of(2024, Month.MAY, 30, 0, 0, 0), 2);
         tm.addSubTask(subTask1);
-        SubTask subTask2 = new SubTask("subtask2", "yyyyyy", Status.DONE, Duration.ofMinutes(50), LocalDateTime.of(2024, Month.MAY,29,10,1,2), 2);
+        SubTask subTask2 = new SubTask("subtask2", "yyyyyy", Status.DONE, Duration.ofMinutes(50), LocalDateTime.of(2024, Month.MAY, 29, 10, 1, 2), 2);
         tm.addSubTask(subTask2);
 
         List<Task> expectedTasksList = tm.getAllTasks();
@@ -79,7 +80,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest {
         assertArrayEquals(expectedSubTasksList.toArray(), tm2.getAllSubTasks().toArray());
         assertArrayEquals(expectedSubTasksLinkedToEpic.toArray(), tm2.getSubTasksLinkedToEpic(epic1).toArray());
         //проверим, что счеткик id работает корректно после восстановления данных из файла
-        Task task2 = new Task("task2", "kjkljlkj", Status.NEW, Duration.ofMinutes(90), LocalDateTime.of(2024,12,30,12,34,54));
+        Task task2 = new Task("task2", "kjkljlkj", Status.NEW, Duration.ofMinutes(90), LocalDateTime.of(2024, 12, 30, 12, 34, 54));
         tm2.addTask(task2);
         assertEquals(5, task2.getId());
 
