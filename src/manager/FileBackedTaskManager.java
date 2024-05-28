@@ -23,7 +23,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public void save() throws ManagerSaveException {
         List<String> allTasksStringList = new ArrayList<>();
-        String headers = "id,type,name,status,description,epic,duration,startTime";
+        String headers = "id,type,name,status,description,epic,duration,startTime,";
         allTasksStringList.add(headers);
         for (Task task : getAllTasks()) {
             allTasksStringList.add(task.toFileString());
@@ -76,7 +76,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         switch (taskType) {
             case TASK:
-                Task task = new Task(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Duration.ofMinutes(Integer.parseInt(taskDetails[5])), LocalDateTime.parse(taskDetails[6]));
+                Task task = new Task(taskDetails[2], taskDetails[4], Integer.parseInt(taskDetails[0]), Status.valueOf(taskDetails[3]), Duration.ofMinutes(Integer.parseInt(taskDetails[6])), LocalDateTime.parse(taskDetails[7]));
                 tasks.put(task.getId(), task);
                 return task;
             case EPIC:
@@ -96,16 +96,16 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public Task addTask(Task task) {
-        super.addTask(task);
+        Task addedTask = super.addTask(task);
         save();
-        return task;
+        return addedTask;
     }
 
     @Override
     public SubTask addSubTask(SubTask subTask) {
-        super.addSubTask(subTask);
+        SubTask addedSubTask = super.addSubTask(subTask);
         save();
-        return subTask;
+        return addedSubTask;
     }
 
     @Override

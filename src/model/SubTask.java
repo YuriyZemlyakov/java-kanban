@@ -22,6 +22,12 @@ public class SubTask extends Task {
 
     @Override
     public String toFileString() {
-        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicLink + "," + duration.toMinutes() + "," + startTime + ",";
+        String durationString;
+        if (duration == null) {
+            durationString = "null";
+        } else {
+            durationString = String.valueOf(duration.toMinutes());
+        }
+        return id + "," + TaskType.SUBTASK + "," + name + "," + status + "," + description + "," + epicLink + "," + durationString + "," + startTime + ",";
     }
 }

@@ -46,7 +46,14 @@ public class Task {
     }
 
     public String toFileString() {
-        return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + "," + duration.toMinutes() + "," + startTime + ",";
+        String durationString;
+        if (duration == null) {
+            durationString = "null";
+        } else {
+            durationString = String.valueOf(duration.toMinutes());
+        }
+
+           return id + "," + TaskType.TASK + "," + name + "," + status + "," + description + ",," + durationString + "," + startTime + ",";
     }
 
     public String getName() {
