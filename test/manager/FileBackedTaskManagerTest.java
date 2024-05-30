@@ -6,6 +6,7 @@ import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -34,8 +35,8 @@ public class FileBackedTaskManagerTest extends TaskManagerTest {
         return FileBackedTaskManager.loadFromFile(file);
     }
 
-    @BeforeAll
-    public static void createTaskManager() throws RuntimeException, IOException {
+    @BeforeEach
+    public void createTaskManager() throws RuntimeException, IOException {
         file = null;
         try {
             file = Files.createTempFile("file", ".txt");
@@ -51,16 +52,11 @@ public class FileBackedTaskManagerTest extends TaskManagerTest {
         tm.deleteAllTasks();
         tm.deleteAllSubTasks();
         tm.deleteAllEpics();
-        tm.resetIdCounter();
-
     }
 
     @Test
     public void areTasksSavedInFile() {
-        //проверим что сохраненных данных в менеджере нет
-
         assertEquals(0, tm.getAllTasks().size());
-        //Добавим в менеджжер новые задачи
         Task task1 = new Task("task1", "aaaa", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, Month.JUNE, 26, 0, 0, 0));
         tm.addTask(task1);
         Epic epic1 = new Epic("epic1", "eeeee", Status.NEW, null, null);

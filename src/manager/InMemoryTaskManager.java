@@ -71,11 +71,6 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void resetIdCounter() {
-        idCounter = 0;
-    }
-
-    @Override
     public Epic addEpic(Epic epic) {
         idCounter++;
         epic.setId(idCounter);
