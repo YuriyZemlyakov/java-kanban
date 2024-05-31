@@ -39,7 +39,7 @@ public class Epic extends Task {
 
     @Override
     public String toFileString() {
-        return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + ",,,,";
+        return id + "," + TaskType.EPIC + "," + name + "," + status + "," + description + ",";
     }
 
     public void setEpicDuration(Duration duration) {
