@@ -6,6 +6,8 @@ import model.SubTask;
 import model.Task;
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,16 +22,12 @@ class InMemoryHistoryManagerTest {
     static Epic epic2;
     static ArrayList<Task> expectedHistoryList;
 
-    @BeforeAll
-    static void createTM() {
-        tm = Managers.getDefault();
-    }
-
     @BeforeEach
     void prepareDataForTest() {
-        epic1 = new Epic("Epic1", "1111", Status.NEW);
-        task1 = new Task("Task1", "NNN", Status.NEW);
-        subTask1 = new SubTask("SubTask1", "1111", Status.NEW, 1);
+        tm = Managers.getDefault();
+        epic1 = new Epic("Epic1", "1111", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, 10, 12, 2, 34, 21));
+        task1 = new Task("Task1", "NNN", Status.NEW, Duration.ofMinutes(40), LocalDateTime.of(2024, 11, 12, 2, 34, 21));
+        subTask1 = new SubTask("SubTask1", "1111", Status.NEW, Duration.ofMinutes(30), LocalDateTime.of(2024, 12, 12, 2, 31, 21), 1);
         expectedHistoryList = new ArrayList<>();
         tm.addEpic(epic1);
         expectedHistoryList.add(tm.getEpicById(epic1.getId()));
@@ -45,7 +43,6 @@ class InMemoryHistoryManagerTest {
         tm.deleteAllTasks();
         tm.deleteAllSubTasks();
         tm.deleteAllEpics();
-        tm.resetIdCounter();
     }
 
 

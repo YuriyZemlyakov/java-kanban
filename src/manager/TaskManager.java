@@ -54,7 +54,6 @@ public interface TaskManager {
 
     ArrayList<Task> getHistory();
 
-    void resetIdCounter(); //добавил для юнит-тестов
-
+    ArrayList<Task> getPrioritizedTasks();
 
 }
