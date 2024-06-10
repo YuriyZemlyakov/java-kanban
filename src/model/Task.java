@@ -99,4 +99,16 @@ public class Task {
     public LocalDateTime getEndTime() {
         return startTime.plus(duration);
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", id=" + id +
+                ", status=" + status +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
+                '}';
+    }
 }
