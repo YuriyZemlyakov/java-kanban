@@ -38,9 +38,6 @@ public class HttpTaskServerTest {
 
     @BeforeEach
     public void setUp() {
-        tm.deleteAllTasks();
-        tm.deleteAllEpics();
-        tm.deleteAllTasks();
         try {
             httpTaskServer.start();
         } catch (IOException e) {
@@ -50,6 +47,9 @@ public class HttpTaskServerTest {
 
     @AfterEach
     public void shutDown() {
+        tm.deleteAllTasks();
+        tm.deleteAllEpics();
+        tm.deleteAllTasks();
         httpTaskServer.stop();
     }
 
